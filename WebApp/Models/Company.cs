@@ -3,7 +3,11 @@ namespace WebApp.Models
     public class Company
     {
         public int Id {get;set;}
-        public string name {get;set;} = string.Empty;
+        public string Name {get;set;} = string.Empty;
+        public string City {get;set;} = string.Empty;
+        public string Address {get;set;} = string.Empty;
+        public string State {get;set;} = string.Empty;
+        public string Phone {get;set;} = string.Empty;
 
         public List<Employee> Employees {get;} = new List<Employee>();
     }
