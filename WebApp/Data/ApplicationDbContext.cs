@@ -7,6 +7,8 @@ namespace WebApp.Data;
 public class ApplicationDbContext : DbContext
 {
     private readonly IConfiguration _config;
+    public DbSet<Employee> Employees {get;set;}
+    public DbSet<Company> Companies {get;set;}
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IConfiguration config)
         : base(options)
