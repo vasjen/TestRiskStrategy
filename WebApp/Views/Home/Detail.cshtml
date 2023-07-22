@@ -1,9 +1,327 @@
 ﻿@model Company
 @{
-    ViewData["Title"] = "Company";
+    ViewData["Title"] = "Detail tables";
 }
+<div class="container-fluid py-4">
+     <div class="row">
+        <div class="col-lg-3 col-md-6">
+            <div class="card my-4">
+               <div class="card-head px-0">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="col-md-auto">
+                      <p class="text-xs font-weight-bold mb-0 px-2 py-2">Info</p>
+                    </div>
+                    <div class="col col-lg-2 d-flex justify-content-end">
+                      <i class="py-2 px-2 fas fa-check"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body px-0 pb-2">
+                 <div class="table-responsive p-0">
+                    <table class="table align-items-left mb-0">
+                        <tbody>
+                            <tr>
+                                <td>
+                                  <div class="d-flex px-2 py-1 align-items-left justify-content-left">
+                                    <div class="d-flex flex-column justify-content-center">
+                                      <label class="mb-0 text-sm">ID:</label>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <input type="text" class="form-control" placeholder="@Model.Id" aria-label="CompanyName" aria-describedby="basic-addon1" value="@Model.Id">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                  <div class="d-flex px-2 py-1 align-items-left justify-content-left">
+                                    <div class="d-flex flex-column justify-content-center">
+                                      <label class="mb-0 text-sm">Name:</label>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <input type="text" class="form-control" placeholder="@Model.Name" aria-label="CompanyName" aria-describedby="basic-addon1" value="@Model.Name">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                  <div class="d-flex px-2 py-1 align-items-left justify-content-left">
+                                    <div class="d-flex flex-column justify-content-center">
+                                      <label class="mb-0 text-sm">Address:</label>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <input type="text" class="form-control" placeholder="@Model.Address" aria-label="CompanyName" aria-describedby="basic-addon1" value="@Model.Address">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                  <div class="d-flex px-2 py-1 align-items-left justify-content-left">
+                                    <div class="d-flex flex-column justify-content-center">
+                                      <label class="mb-0 text-sm">City:</label>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <input type="text" class="form-control" placeholder="@Model.City" aria-label="CompanyName" aria-describedby="basic-addon1" value="@Model.City">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                 <div class="d-flex px-2 py-1 align-items-left justify-content-left">
+                                    <div class="d-flex flex-column justify-content-center">
+                                      <label class="mb-0 text-sm">State:</label>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <input type="text" class="form-control" placeholder="@Model.State" aria-label="CompanyName" aria-describedby="basic-addon1" value="@Model.State">
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <h7>@Model.Name</h7><br>
+                 </div>
+                </div>
+            </div>
+        </div>
+       <div class="col-lg-3 col-md-6">
+            <div class="card my-4">
+                <div class="card-head px-0">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="col-md-auto">
+                      <p class="text-xs font-weight-bold mb-0 px-2 py-2">History</p>
+                    </div>
+                    <div class="col col-lg-2 d-flex justify-content-end">
+                      <i class="py-2 px-2 fas fa-arrows-rotate"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body px-0 pb-2">
+                 <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Order Date</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Store City</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var item in Model.Histories)
+                    {
+                    <tr>
+                       <td>
+                        <div class="d-flex px-2 py-1">
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">@item.OrderDate.ToString("MM/dd/yyyy")</h6>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0">@item.OrderCity</p>
+                      </td>
+                    </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="card my-4">
+                <div class="card-head px-0">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="col-md-auto">
+                      <p class="text-xs font-weight-bold mb-0 px-2 py-2">Info</p>
+                    </div>
+                    <div class="col col-lg-2 d-flex justify-content-end">
+                        <i class="my-2 mx-1 fas fa-add"></i>
+                        <i class="my-2 mx-1 fas fa-trash"></i>
+                        <i class="my-2 mx-1 fas fa-arrows-rotate"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body px-0 pb-2">
+                 <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Invoice</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Employee</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var item in Model.Notes)
+                    {
+                    <tr>
+                       <td>
+                        <div class="d-flex px-2 py-1">
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">@item.InvoiceNumber</h6>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0">@item.Employee.FirstName  @item.Employee.LastName</p>
+                      </td>
+                    </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+                </div>
+            </div>
+        </div>
+
+     </div>
+      <div class="row">
+        <div class="col-lg-6 col-md-6">
+            <div class="card my-4">
+                <div class="card-head px-0">
+                    <div class="row">
+                        <div class="d-flex justify-content-between">
+                            <div class="col-md-auto">
+                                <p class="text-xs font-weight-bold mb-0 px-2 py-2">Employees</p>
+                            </div>
+                            <div class="col col-lg-6">
+                                <i class="my-2 fas fa-edit"></i>
+                                <i class="my-2 fas fa-add"></i>
+                                <i class="my-2 fas fa-trash"></i>
+                            </div>
+                            
+                        </div>
+                        <div class="col d-flex justify-content-end">
+                            <i class="my-2 fas fa-edit"></i>
+                            <i class="px-2 my-2 fas fa-trash"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body px-0 pb-2">
+                 <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                        
+                      <th class="fw-lighter opacity-7">First Name</th>
+                      <th class="fw-lighter ps-2">Last Name</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var item in Model.Employees)
+                    {
+                    <tr>
+                       <td>
+                        <div class="d-flex px-2 py-1">
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">@item.FirstName</h6>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0">@item.LastName</p>
+                      </td>
+                    </tr>
+                    }
+                  </tbody>
+                </table>
+                        </div>
+                    </div>
+                     <div class="col">
+                         <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                          <div class="d-flex align-items-center justify-content-center">
+                                            <div class="d-flex flex-column justify-content-center">
+                                              <p class="fw-lighter ">First Name:</p>
+                                            </div>
+                                          </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <input type="text" class="form-control" placeholder="First Name" aria-label="CompanyName" aria-describedby="basic-addon1">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                          <div class="d-flex align-items-center justify-content-center">
+                                            <div class="d-flex flex-column justify-content-center">
+                                              <p class="fw-lighter ">Last Name:</p>
+                                            </div>
+                                          </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <input type="text" class="form-control" placeholder="last Name" aria-label="CompanyName" aria-describedby="basic-addon1">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                          <div class="d-flex align-items-center justify-content-center">
+                                            <div class="d-flex flex-column justify-content-center">
+                                             <p class="fw-lighter ">Title</p>
+                                            </div>
+                                          </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <input type="text" class="form-control" placeholder="Mr." aria-label="CompanyName" aria-describedby="basic-addon1">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                          <div class="d-flex align-items-center justify-content-center">
+                                            <div class="d-flex flex-column justify-content-center">
+                                            <p class="fw-lighter ">Birth Date:</p>
+                                            </div>
+                                          </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <input type="date" class="form-control" placeholder="3/16/1984" aria-label="CompanyName"  >
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                          <div class="d-flex align-items-center justify-content-center">
+                                            <div class="d-flex flex-column justify-content-center">
+                                              <p class="fw-lighter ">Position:</p>
+                                            </div>
+                                          </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <input type="text" class="form-control" placeholder="Position" aria-label="CompanyName" aria-describedby="basic-addon1">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                         </div>
+                    </div>
+                 </div>
+                </div>
+            </div>
+        </div>
+      </div>
 </div>
