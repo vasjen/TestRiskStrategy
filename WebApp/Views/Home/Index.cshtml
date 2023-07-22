@@ -13,16 +13,16 @@
                   <thead>
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                        <input class="form-control " id="name" type="text" placeholder="Company name">
+                        <input class="form-control " id="inputColumn1" type="text" placeholder="Company name">
                       </th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                         <input class="form-control " id="city" type="text" placeholder="City">
+                         <input class="form-control " id="inputColumn2" type="text" placeholder="City">
                       </th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                         <input class="form-control " id="state" type="text" placeholder="State">
+                         <input class="form-control " id="inputColumn3" type="text" placeholder="State">
                       </th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                         <input class="form-control " id="phone" type="text" placeholder="Phone">
+                         <input class="form-control " id="inputColumn14" type="text" placeholder="Phone">
                       </th>
                     </tr>
                   </thead>
@@ -66,12 +66,13 @@
  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script>
-$(document).ready(function(){
-  $("#myInput").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-    $("#myTable tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+  $(document).ready(function() {
+    $("#inputColumn1, #inputColumn2, #inputColumn3, #inputColumn4").on("keyup", function() {
+      var columnIndex = $(this).index() + 1; 
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function() {
+        $(this).toggle($(this).find("td:nth-child(" + columnIndex + ")").text().toLowerCase().indexOf(value) > -1)
+      });
     });
   });
-});
 </script>
