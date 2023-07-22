@@ -102,10 +102,10 @@
                 <div class="card-head px-0">
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="col-md-auto">
-                      <p class="text-xs font-weight-bold mb-0 px-2 py-2">History</p>
+                      <p class="text-xs font-weight-bold mb-0 px-2 py-2">Histories</p>
                     </div>
                     <div class="col col-lg-2 d-flex justify-content-end">
-                      <i class="py-2 px-2 fas fa-arrows-rotate"></i>
+                      <i class="py-2 px-2 fas fa-refresh" data-id="Histories"></i>
                     </div>
                   </div>
                 </div>
@@ -118,7 +118,7 @@
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Store City</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody id="TableHistories">
                     @foreach (var item in Model.Histories)
                     {
                     <tr>
@@ -145,12 +145,12 @@
                 <div class="card-head px-0">
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="col-md-auto">
-                      <p class="text-xs font-weight-bold mb-0 px-2 py-2">Info</p>
+                      <p class="text-xs font-weight-bold mb-0 px-2 py-2">Notes</p>
                     </div>
                     <div class="col col-lg-2 d-flex justify-content-end">
                         <i class="my-2 mx-1 fas fa-add"></i>
                         <i class="my-2 mx-1 fas fa-trash"></i>
-                        <i class="my-2 mx-1 fas fa-arrows-rotate"></i>
+                        <i class="my-2 mx-1 fas fa-refresh" data-id="Notes"></i>
                     </div>
                   </div>
                 </div>
@@ -163,7 +163,7 @@
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Employee</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody id="TableNotes">
                     @foreach (var item in Model.Notes)
                     {
                     <tr>
@@ -192,14 +192,14 @@
             <div class="card my-4">
                 <div class="card-head px-0">
                     <div class="row">
-                        <div class="d-flex justify-content-between">
+                        <div class="col d-flex justify-content-between">
                             <div class="col-md-auto">
                                 <p class="text-xs font-weight-bold mb-0 px-2 py-2">Employees</p>
                             </div>
                             <div class="col col-lg-6">
-                                <i class="my-2 fas fa-edit"></i>
                                 <i class="my-2 fas fa-add"></i>
-                                <i class="my-2 fas fa-trash"></i>
+                                <i class="my-2 fas fa-edit"></i>
+                                <i class="my-2 fas fa-refresh" data-id="Employees"></i>
                             </div>
                             
                         </div>
@@ -211,7 +211,7 @@
                 </div>
                 <div class="card-body px-0 pb-2">
                  <div class="row">
-                    <div class="col-lg-4 col-md-6">
+                    <div class="col-4">
                         <div class="table-responsive p-0">
                             <table class="table align-items-center mb-0">
                   <thead>
@@ -221,7 +221,7 @@
                       <th class="fw-lighter ps-2">Last Name</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody id ="TableEmployees">
                     @foreach (var item in Model.Employees)
                     {
                     <tr>
@@ -325,3 +325,92 @@
         </div>
       </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $(".fa-refresh").on("click", function() {
+      var id = $(this).data("id");
+    var url = "/Data/"  + id +"?CompanyId=@Model.Id";
+      console.log(url);
+      $.ajax({
+        url: url,
+        method: "GET",
+        dataType: "json",
+        success: function(response) {
+            console.log(response)
+            var table = $("#Table"+id);
+            table.empty();
+            if (id === "Employees")
+            {
+                response.forEach(function(employee) {
+            table.append(`
+              <tr>
+                <td>
+                  <div class="d-flex px-2 py-1">
+                    <div class="d-flex flex-column justify-content-center">
+                      <h6 class="mb-0 text-sm">${employee.firstName}</h6>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <p class="text-xs font-weight-bold mb-0">${employee.lastName}</p>
+                </td>
+              </tr>
+            `);
+          });
+            }
+            if (id === "Histories")
+            {
+                 response.forEach(function(history) {
+                    var dateObj = new Date(history.orderDate);
+                    var month = String(dateObj.getMonth() + 1).padStart(2, "0");
+                    var day = String(dateObj.getDate()).padStart(2, "0");
+                    var year = dateObj.getFullYear();
+                    var formattedDate = `${month}/${day}/${year}`;
+                table.append(`
+                <tr>
+                       <td>
+                        <div class="d-flex px-2 py-1">
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">${formattedDate}</h6>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0">${history.orderCity}</p>
+                      </td>
+                    </tr>
+                    `);
+                 });
+            }
+            if (id === "Notes")
+            {
+                response.$values.forEach(function(note) {
+                table.append(`
+              <tr>
+                <td>
+                  <div class="d-flex px-2 py-1">
+                    <div class="d-flex flex-column justify-content-center">
+                      <h6 class="mb-0 text-sm">${note.InvoiceNumber}</h6>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <p class="text-xs font-weight-bold mb-0">${note.Employee.FirstName} ${note.Employee.LastName}</p>
+                </td>
+              </tr>
+            `);
+          });
+            }
+
+            
+        },
+        error: function(xhr, textStatus, errorThrown) {
+            console.log("Error!")
+        }
+      });
+    });
+  });
+</script>
+

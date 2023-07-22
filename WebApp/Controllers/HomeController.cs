@@ -17,22 +17,19 @@ public class HomeController : Controller
         _context = context;
     }
 
+    
     public IActionResult Index()
-    {
-        return View();
-    }
-
-    public IActionResult Privacy()
-    {
-        return View(); 
-    }
-    public IActionResult Companies()
     {
         var data = _context.Companies
                     .AsNoTracking()
                     .ToList();
         return View(data);
     }
+    public IActionResult Privacy()
+    {
+        return View(); 
+    }
+   
     public IActionResult Detail(int id)
     {
         
