@@ -6,7 +6,7 @@ namespace WebApp.Data;
 
 public class ApplicationDbContext : DbContext
 {
-    private readonly IConfiguration _config;
+
     public DbSet<Employee> Employees {get;set;}
     public DbSet<Company> Companies {get;set;}
     public DbSet<Note> Notes {get;set;}

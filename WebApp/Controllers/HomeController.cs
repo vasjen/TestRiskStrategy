@@ -26,15 +26,14 @@ public class HomeController : Controller
     {
         return View(); 
     }
-    public IActionResult Table()
+    public IActionResult Companies()
     {
-        var data = _context.Employees
+        var data = _context.Companies
                     .AsNoTracking()
-                    
                     .ToList();
         return View(data);
     }
-    public IActionResult Company(int id)
+    public IActionResult Detail(int id)
     {
         
         var company = _context.Companies
