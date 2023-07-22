@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebApp.Data;
 using WebApp.Models;
 
@@ -23,18 +24,32 @@ public class HomeController : Controller
 
     public IActionResult Privacy()
     {
-        return View();
+        return View(); 
     }
     public IActionResult Table()
     {
-        var data = _context.Employees.ToList();
-        foreach (var item in data)
-        {
-            System.Console.WriteLine("Hey");
-            System.Console.WriteLine(item.Position);
-        }
+        var data = _context.Employees
+                    .AsNoTracking()
+                    
+                    .ToList();
         return View(data);
     }
+    public IActionResult Company(int id)
+    {
+        
+        var company = _context.Companies
+                    .Where(p => p.Id == id)
+                    .Include(p => p.Employees)
+                    .Include(p => p.Notes)
+                    .Include(p => p.Histories)
+                    .Single();
+        if (company is null)
+        {
+            return BadRequest();
+        }                    
+        return View(company);
+    }
+
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

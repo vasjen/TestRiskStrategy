@@ -7,6 +7,13 @@
     <h1 class="display-4">Welcome</h1>
     @foreach (var item in Model)
     {
-        <h2>@item.FirstName</h2>
+
+        <h7>Id: @item.Id</h7> <br>
+        <h7>FirstName: @item.FirstName</h7> <br>
+        <h7>LastName: @item.LastName</h7> <br>
+        <h7>Position: @item.Position</h7> <br>
+        <h7>BirthDate: @item.BirthDate</h7> <br>
+        <h7>CompanyId: @item.CompanyId</h7> <br>
+
     }
 </div>

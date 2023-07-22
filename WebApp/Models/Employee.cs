@@ -10,8 +10,7 @@ namespace WebApp.Models
         public string Position {get;set;} = string.Empty;
         public int CompanyId {get;set;}
         public Company Company {get;set;} = null!;
-        public int NoteId {get;set;}
-        public Note Note {get;set;} = null!;
+        public List<Note> Notes {get;} = new List<Note>();
         
     }
 

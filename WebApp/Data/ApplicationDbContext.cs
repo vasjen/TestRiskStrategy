@@ -13,7 +13,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<History> Histories {get;set;}
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : base(options)
+    : base(options)
     {
     }
 

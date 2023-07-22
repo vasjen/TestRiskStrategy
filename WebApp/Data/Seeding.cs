@@ -6,7 +6,7 @@ namespace WebApp.Data
 {
     public class Seeding
     {
-        public static void Initialize(IServiceProvider serviceProvider)
+        public static async Task InitializeAsync(IServiceProvider serviceProvider)
         {
             using (var context = new ApplicationDbContext(
                 serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>()))
@@ -15,21 +15,32 @@ namespace WebApp.Data
                 {
                     return;   
                 }
-                var comapny = new Company{
-                    Id = 1,
-                    Name = "Company name",
-                    City = "City",
-                    Address= "Some address",
-                    State = "State",
-                    Phone = "phone"
-                };
-                var note = new Note
+                var companies = CreateCompanies(10);
+                await context.AddRangeAsync(companies);
+                var rnd = new Random();
+                foreach (var item in companies)
                 {
-                    Id = 1,
-                    InvoiceNumber = 31263,
-                    CompanyId = 1
-                };
-                var users = new Faker<Employee>()
+                    var companId = item.Id;
+                    var histories = CreateHistory(rnd.Next(2,10),companId);
+                    var employees = CreateEmployees(rnd.Next(4,10),companId);
+                    await context.AddRangeAsync(histories);
+                    await context.AddRangeAsync(employees);
+                    foreach (var employee in employees)
+                    {
+                        var notes = CreateNotes(rnd.Next(0,3),companId,employee.Id);
+                        await context.AddRangeAsync(notes);
+                    }
+                   
+                }
+               
+                await context.SaveChangesAsync();
+            }
+        }
+
+        private static List<Employee> CreateEmployees (int count, int CompanyId)
+        {
+            return 
+                new Faker<Employee>()
                 .StrictMode(false)
                 .RuleFor(u => u.Id, f => f.IndexVariable)
                 .RuleFor(u => u.FirstName, f => f.Name.FirstName())
@@ -37,21 +48,50 @@ namespace WebApp.Data
                 .RuleFor(u => u.Title, f => f.Name.Prefix())
                 .RuleFor(u => u.Position, f => f.Name.JobDescriptor())
                 .RuleFor(u => u.BirthDate, f => f.Date.Recent(0))
-                .RuleFor(u => u.CompanyId, f => f.Random.Int(1,1))
-                .RuleFor(u => u.NoteId, f => f.Random.Int(1,1))
+                .RuleFor(u => u.CompanyId, f => f.Random.Int(CompanyId,CompanyId))
                 .RuleSet("skip company", f => f.Ignore(x => x.Company))
-                .RuleSet("skip note", f => f.Ignore(x => x.Note))
-               // .RuleFor(u => u.Title, f => f.Address.State()+ " " + f.Address.City() + " " + f.Address.StreetAddress())
-                .Generate(10)
-                
+                .Generate(count)
                 .ToList();
-                
-               
-                context.Add(comapny);
-                context.Add(note);
-                context.AddRange(users);
-                context.SaveChanges();
-            }
+        }
+        private static List<Company> CreateCompanies (int count)
+        {
+            return 
+                new Faker<Company>()
+                .StrictMode(false)
+                .RuleFor(u => u.Id, f => f.IndexVariable)
+                .RuleFor(u => u.Name, f => f.Company.CompanyName())
+                .RuleFor(u => u.City, f => f.Address.City())
+                .RuleFor(u => u.State, f => f.Address.State())
+                .RuleFor(u => u.Address, f => f.Address.StreetAddress())
+                .RuleFor(u => u.Phone, f => f.Phone.PhoneNumber())
+                .Generate(count)
+                .ToList();
+        }
+
+        private static List<History> CreateHistory (int count, int CompanyId)
+        {
+            return 
+                new Faker<History>()
+                .StrictMode(false)
+                .RuleFor(u => u.Id, f => f.IndexVariable)
+                .RuleFor(u => u.OrderDate, f => f.Date.Past(65))
+                .RuleFor(u => u.OrderCity, f => f.Address.City())
+                .RuleFor(u => u.CompanyId, f => f.Random.Int(CompanyId,CompanyId))
+                .Generate(count)
+                .ToList();
+        }
+        private static List<Note> CreateNotes (int count, int CompanyId, int EmployeeId)
+        {
+            return 
+                new Faker<Note>()
+                .StrictMode(false)
+                .RuleFor(u => u.Id, f => f.IndexVariable)
+                .RuleFor(u => u.InvoiceNumber, f => f.IndexFaker)
+                .RuleFor(u => u.CompanyId, f => f.Random.Int(CompanyId,CompanyId))
+                .RuleFor(u => u.EmployeeId, f => f.Random.Int(EmployeeId,EmployeeId))
+                .RuleSet("skip Employee", f => f.Ignore(x => x.Employee))
+                .Generate(count)
+                .ToList();
         }
         }
 }   

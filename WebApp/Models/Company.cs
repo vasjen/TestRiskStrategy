@@ -10,5 +10,7 @@ namespace WebApp.Models
         public string Phone {get;set;} = string.Empty;
 
         public List<Employee> Employees {get;} = new List<Employee>();
+        public List<History> Histories {get;} = new List<History>();
+        public List<Note> Notes {get;} = new List<Note>();
     }
 }
